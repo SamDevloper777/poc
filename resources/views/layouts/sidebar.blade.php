@@ -21,9 +21,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+          <a class="nav-link {{ request()->routeIs('user.index') ? 'active' : '' }}" href="{{ route('user.index') }}">
             <span class="nav-link-icon"><i class="ti ti-home"></i></span>
-            <span class="nav-link-title">Dashboard</span>
+            <span class="nav-link-title">User</span>
           </a>
         </li>
 
