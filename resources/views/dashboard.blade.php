@@ -93,11 +93,6 @@
               <p><strong>Role:</strong> {{ Auth::user()->role }}</p>
               <p><strong>Joined:</strong> {{ Auth::user()->created_at->format('d M, Y') }}</p>
             </div>
-            <div class="col-md-6">
-              <p><strong>Server Time:</strong> {{ now()->toDayDateTimeString() }}</p>
-              <p><strong>IP Address:</strong> {{ request()->ip() }}</p>
-              <p><strong>Browser:</strong> {{ request()->userAgent() }}</p>
-            </div>
           </div>
         </div>
       </div>
@@ -105,6 +100,32 @@
     </div>
   </div>
 </div>
+@if ($birthdayUsers->count())
+    <div class="toast-container position-fixed top-0 end-0 p-3 z-3">
+        @foreach ($birthdayUsers as $user)
+            <div class="toast show mb-2 border shadow-sm" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-primary text-white">
+                    <strong class="me-auto">🎉 Happy Birthday!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Happy Birthday, <strong>{{ $user->first_name }} {{ $user->last_name }}</strong>!<br>
+                    Wishing you a fantastic year ahead! 🎂
+                </div>
+            </div>
+        @endforeach
+    </div>
+@endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        toastElList.map(function (toastEl) {
+            new bootstrap.Toast(toastEl, { delay: 6000 }).show()
+        });
+    });
+</script>
+
 
 <!-- Dark Mode Script -->
 <script>

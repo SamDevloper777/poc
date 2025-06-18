@@ -32,4 +32,30 @@ class UserController extends Controller
 
         return view('user-list', compact('users', 'search', 'sortField', 'sortDirection', 'perPage'));
     }
+    public function edit($id)
+{
+    $user = User::findOrFail($id);
+    return view('update-user', compact('user'));
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'first_name' => 'required|string|max:100',
+        'last_name' => 'required|string|max:100',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'phone' => 'required|string|max:20',
+        'date_of_birth' => 'required|date',
+        'address' => 'required|string|max:255',
+        'city' => 'required|string|max:100',
+        'country' => 'required|string|max:100',
+        'occupation' => 'required|string|max:100',
+        'status' => 'required|in:Active,Inactive,Suspended',
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->update($request->all());
+
+    return redirect()->route('users.index')->with('success', 'User updated successfully.');
+}
 }
