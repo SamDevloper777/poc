@@ -58,7 +58,7 @@
                                 <th>City</th>
                                 <th>Country</th>
                                 <th>Status</th>
-                                @can('edit-users')
+                                @can('edit users')
                                 <th>Action</th>
                                 @endcan
                             </tr>
@@ -77,18 +77,18 @@
                                     </span>
                                 </td>
                                 <td>
-                                   @can('assign-role')
+                                   @can('assign role')
                                      <a href="{{ route('users.assign-role', $user->id) }}" class="btn btn-sm btn-outline-primary">
                                         Assign Role
                                     </a>
                                     @endcan
-                                    @can('edit-users')
+                                    @can('edit users')
                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-outline-primary">
                                         Edit
                                     </a>
                                     @endcan
 
-                                    @can('edit-users')
+                                    @can('edit users')
                                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-outline-info me-1">
                                         View
                                     </a>

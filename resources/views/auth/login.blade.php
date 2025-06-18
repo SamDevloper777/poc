@@ -38,7 +38,7 @@
         </div>
 
         <div class="card-footer text-center">
-            <div class="text-muted">Don't have an account? <a href="{{ route('register') }}">Sign up</a></div>
+            <div class="text-muted">forgot password? <a href="{{ route('password.email') }}">Sign up</a></div>
         </div>
     </form>
 @endsection
