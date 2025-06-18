@@ -1,7 +1,7 @@
 <aside class="navbar navbar-vertical navbar-expand-lg" id="app-sidebar">
   <div class="container-fluid">
     <!-- Brand -->
-    <a class="navbar-brand" href="{{ route('dashboard') }}">
+    <a wire:navigate class="navbar-brand" href="{{ route('dashboard') }}">
       <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-brand-image">
     </a>
 
@@ -15,13 +15,13 @@
 
         <!-- Dashboard -->
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+          <a wire:navigate class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
             <span class="nav-link-icon"><i class="ti ti-home"></i></span>
             <span class="nav-link-title">Dashboard</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('user.index') ? 'active' : '' }}" href="{{ route('user.index') }}">
+          <a  class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">
             <span class="nav-link-icon"><i class="ti ti-home"></i></span>
             <span class="nav-link-title">User</span>
           </a>

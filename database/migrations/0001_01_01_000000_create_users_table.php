@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('country');
             $table->string('occupation');
             $table->enum('status', ['Active', 'Inactive', 'Suspended']);
-            $table->string('role')->default('User');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

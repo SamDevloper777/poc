@@ -2,52 +2,65 @@
 
 namespace App\Livewire;
 
+use App\Exports\UsersPageExport;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserList extends Component
-{ use WithPagination;
-      
+{
+    use WithPagination;
 
-    #[Url]
-    public int $page = 1;
-
-    #[Url]
     public string $search = '';
-
-    #[Url]
     public string $sortField = 'first_name';
-
-    #[Url]
     public string $sortDirection = 'asc';
-
-    #[Url]
     public int $perPage = 10;
 
     public $selectedUser = null;
 
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'sortField' => ['except' => 'first_name'],
+        'sortDirection' => ['except' => 'asc'],
+        'perPage' => ['except' => 10],
+    ];
+
     public function updatedSearch()
     {
-        $this->page = 1;
+        $this->resetPage();
     }
+    public function updatingPage()
+    {
+        $this->search = '';
+    }
+    public function exportCsv()
+    {
+        $page = $this->getPage();
+        $filename = "users_page_{$page}.csv";
 
+        return Excel::download(
+            new UsersPageExport(
+                $this->search,
+                $this->sortField,
+                $this->sortDirection,
+                $this->perPage,
+                $page
+            ),
+            $filename
+        );
+    }
     public function sortBy($field)
     {
-        if ($this->sortField === $field) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortField = $field;
-            $this->sortDirection = 'asc';
-        }
-        $this->page = 1;
+        $this->sortDirection = ($this->sortField === $field && $this->sortDirection === 'asc') ? 'desc' : 'asc';
+        $this->sortField = $field;
+        $this->resetPage();
     }
 
     public function showUser($userId)
     {
-        $this->selectedUser = User::findOrFail($userId);
+        $this->selectedUser = User::find($userId);
     }
 
     public function closeModal()
@@ -57,20 +70,30 @@ class UserList extends Component
 
     public function render()
     {
-        $cacheKey = "users_{$this->search}_{$this->sortField}_{$this->sortDirection}_{$this->perPage}_page_{$this->page}";
+        $page = $this->getPage();
+        $cacheKey = "users_{$this->search}_{$this->sortField}_{$this->sortDirection}_{$this->perPage}_page_{$page}";
 
         $users = Cache::remember($cacheKey, now()->addMinutes(5), function () {
-            return User::where(function ($query) {
-                $query->where('first_name', 'like', "%{$this->search}%")
-                      ->orWhere('last_name', 'like', "%{$this->search}%")
-                      ->orWhere('email', 'like', "%{$this->search}%");
-            })
-            ->orderBy($this->sortField, $this->sortDirection)
-            ->paginate($this->perPage, ['*'], 'page', $this->page);
+            $query = User::query();
+
+            if ($this->search) {
+                $query->where(function ($q) {
+                    $q->where('first_name', 'like', "%{$this->search}%")
+                        ->orWhere('last_name', 'like', "%{$this->search}%")
+                        ->orWhere('email', 'like', "%{$this->search}%");
+                });
+            }
+
+            return $query->orderBy($this->sortField, $this->sortDirection)
+                ->paginate($this->perPage)
+                ->withQueryString();
         });
 
-        return view('livewire.user-list', [
-            'users' => $users,
-        ]);
+        return view('livewire.user-list', compact('users'));
+    }
+
+    protected function getPage()
+    {
+        return request()->query('page', 1);
     }
 }
