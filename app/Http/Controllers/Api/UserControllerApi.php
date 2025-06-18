@@ -22,7 +22,7 @@ class UserControllerApi extends Controller
         return response()->json(['token' => $token, 'user' => $user,"message" => "Login successful"], 200,);
     }
 
-    // Fetch paginated users
+
     public function index(Request $request)
     {
         $users = User::select(

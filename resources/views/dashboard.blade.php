@@ -16,61 +16,7 @@
         </div>
       </div>
 
-      <!-- Cards -->
-      <div class="row row-deck row-cards mt-4">
-        <div class="col-sm-6 col-lg-3">
-          <div class="card card-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <span class="text-blue me-3"><i class="ti ti-users text-lg"></i></span>
-                <div>
-                  <div class="font-weight-medium">Users</div>
-                  <div class="text-muted">{{ $usersCount ?? 0 }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card card-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <span class="text-green me-3"><i class="ti ti-calendar-event"></i></span>
-                <div>
-                  <div class="font-weight-medium">Birthdays Today</div>
-                  <div class="text-muted">{{ $birthdaysToday ?? 0 }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card card-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <span class="text-orange me-3"><i class="ti ti-chart-bar"></i></span>
-                <div>
-                  <div class="font-weight-medium">Active Users</div>
-                  <div class="text-muted">{{ $activeUsers ?? 0 }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-          <div class="card card-sm">
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <span class="text-red me-3"><i class="ti ti-user-off"></i></span>
-                <div>
-                  <div class="font-weight-medium">Inactive Users</div>
-                  <div class="text-muted">{{ $inactiveUsers ?? 0 }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
 
       <!-- System Info -->
       <div class="card mt-4">
